@@ -168,6 +168,22 @@ const HostDashboard = () => {
     if (player) player.pauseVideo();
   };
 
+  useEffect(() => {
+    console.log("[HostDashboard] Monté");
+  }, []);
+
+  useEffect(() => {
+    if (gameId) {
+      console.log(`[HostDashboard] gameId actif: ${gameId}`);
+    }
+  }, [gameId]);
+
+  useEffect(() => {
+    if (players.length) {
+      console.log(`[HostDashboard] Joueurs:`, players);
+    }
+  }, [players]);
+
   return (
     <div className={theme.root} style={{ minHeight: '100vh', overflow: 'hidden' }}>
       <div

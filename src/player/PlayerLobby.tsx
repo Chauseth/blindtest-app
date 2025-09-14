@@ -41,6 +41,22 @@ const PlayerLobby: React.FC = () => {
     };
 
     useEffect(() => {
+        console.log("[PlayerLobby] Monté");
+    }, []);
+
+    useEffect(() => {
+        if (gameId) {
+            console.log(`[PlayerLobby] gameId actif: ${gameId}`);
+        }
+    }, [gameId]);
+
+    useEffect(() => {
+        if (players.length) {
+            console.log(`[PlayerLobby] Joueurs:`, players);
+        }
+    }, [players]);
+
+    useEffect(() => {
         if (!gameId) return;
         const interval = setInterval(async () => {
             try {

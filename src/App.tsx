@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import HostDashboard from './host/HostDashboard';
 import PlayerLobby from './player/PlayerLobby';
@@ -24,6 +24,10 @@ const Home = () => (
 );
 
 const App = () => {
+    useEffect(() => {
+        console.log("[App] Application montée");
+    }, []);
+
     return (
         <Router>
             <Routes>
