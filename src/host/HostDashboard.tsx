@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { Player } from "../common/types";
 import { getTeamNames, updateTeamNames } from "../common/api";
 import theme from '../common/AppTheme.module.css';
+import YouTube from 'react-youtube'; // Ajoute cette ligne
 const API_URL = 'http://localhost:4000/api';
 
 const HostDashboard = () => {
@@ -15,7 +16,14 @@ const HostDashboard = () => {
   const [error, setError] = useState<string>(''); // Pour afficher une erreur éventuelle
   const [customPoints, setCustomPoints] = useState<Record<string, number>>({}); // Ajoute cet état
   const [teamNames, setTeamNames] = useState<Record<string, string>>({ "Team A": "Team A", "Team B": "Team B" });
-
+  const [youtubeId, setYoutubeId] = useState<string>(''); // Ajoute cet état
+  const [player, setPlayer] = useState<any>(null); // Pour contrôler le player
+  const [hasBuzzed, setHasBuzzed] = useState(false);
+  const firstPollRef = useRef(true); // Utilise un useRef
+  const [playlist, setPlaylist] = useState<string[]>([]);
+  const [playlistInput, setPlaylistInput] = useState<string>(''); // Ajoute cet état
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const buzzSound = useRef<HTMLAudioElement | null>(null);
 
   // Création de partie
   const handleCreateGame = async () => {
@@ -60,13 +68,38 @@ const HostDashboard = () => {
     const interval = setInterval(async () => {
       try {
         const playersRes = await axios.get(`${API_URL}/games/${gameId}/players`);
-        setPlayers(playersRes.data as Player[]);
+        const updatedPlayers = playersRes.data as Player[];
+        setPlayers(updatedPlayers);
+
+        const someoneBuzzed = updatedPlayers.some(p => p.buzzed);
+
+        if (firstPollRef.current) {
+          setHasBuzzed(someoneBuzzed);
+          firstPollRef.current = false;
+        } else {
+          if (someoneBuzzed && !hasBuzzed) {
+            setHasBuzzed(true);
+          } else if (!someoneBuzzed && hasBuzzed) {
+            setHasBuzzed(false);
+          }
+        }
       } catch (e) {
         console.error(e);
       }
-    }, 300); // 300ms pour plus de réactivité
+    }, 300);
     return () => clearInterval(interval);
-  }, [gameId]);
+  }, [gameId, hasBuzzed]);
+
+  // Ajoute cet effet pour la pause automatique
+  useEffect(() => {
+    if (player && hasBuzzed) {
+      player.pauseVideo();
+      if (buzzSound.current) {
+        buzzSound.current.currentTime = 0;
+        buzzSound.current.play();
+      }
+    }
+  }, [player, hasBuzzed]);
 
   const updateScore = async (playerId: string, newScore: number) => {
     await axios.patch(`${API_URL}/players/${playerId}/score`, { score: newScore });
@@ -129,6 +162,11 @@ const HostDashboard = () => {
 
   // Trouve le premier joueur ayant buzzé
   const firstBuzzedPlayerId = players.find(p => p.buzzed)?.id;
+
+  // Ajoute ce bloc dans le JSX, par exemple juste avant le return (
+  const handlePause = () => {
+    if (player) player.pauseVideo();
+  };
 
   return (
     <div className={theme.root} style={{ minHeight: '100vh', overflow: 'hidden' }}>
@@ -322,9 +360,78 @@ const HostDashboard = () => {
             🔄 Reset Buzzers
           </button>
         )}
+        {/* Ajoute ce bloc dans le JSX, par exemple juste avant la liste des équipes : */}
+        {gameId && (
+          <div style={{ margin: '18px 0' }}>
+            <h4 style={{ color: '#F76E4F', marginBottom: 6 }}>Playlist YouTube (animateur)</h4>
+            <textarea
+              placeholder="Colle ici plusieurs liens ou IDs YouTube (un par ligne)"
+              value={playlistInput}
+              onChange={e => setPlaylistInput(e.target.value)}
+              style={{ width: 400, height: 80, marginRight: 8, padding: 6, borderRadius: 6, border: '1px solid #ccc', resize: 'vertical' }}
+            />
+            <button
+              onClick={() => {
+                setPlaylist(
+                  playlistInput
+                    .split('\n')
+                    .map(s => s.trim())
+                    .filter(Boolean)
+                );
+                setCurrentIndex(0);
+              }}
+              className={theme.buttonPrimary}
+              style={{ fontSize: 14, padding: '6px 12px', marginLeft: 8 }}
+            >
+              Charger la playlist
+            </button>
+            <div style={{ marginTop: 12 }}>
+              {playlist.length > 0 && (
+                <>
+                  <div style={{ marginBottom: 8 }}>
+                    <button
+                      onClick={() => setCurrentIndex(i => Math.max(0, i - 1))}
+                      disabled={currentIndex === 0}
+                      className={theme.buttonSecondary}
+                      style={{ marginRight: 8, fontSize: 14, padding: '6px 12px' }}
+                    >
+                      ◀ Précédent
+                    </button>
+                    <button
+                      onClick={() => setCurrentIndex(i => Math.min(playlist.length - 1, i + 1))}
+                      disabled={currentIndex >= playlist.length - 1}
+                      className={theme.buttonSecondary}
+                      style={{ fontSize: 14, padding: '6px 12px' }}
+                    >
+                      Suivant ▶
+                    </button>
+                    <span style={{ marginLeft: 16, color: '#888' }}>
+                      {currentIndex + 1} / {playlist.length}
+                    </span>
+                  </div>
+                  <YouTube
+                    videoId={extractYoutubeId(playlist[currentIndex])}
+                    opts={{ width: 400, height: 225, playerVars: { autoplay: 0 } }}
+                    onReady={e => setPlayer(e.target)}
+                  />
+                </>
+              )}
+            </div>
+          </div>
+        )}
+        <audio ref={buzzSound} src="/buzz.mp3" preload="auto" />
       </div>
     </div>
   );
 };
 
 export default HostDashboard;
+
+// Ajoute cette fonction utilitaire dans le fichier (hors composant) :
+function extractYoutubeId(input: string): string {
+  // Gère les URLs ou juste l'ID
+  const match = input.match(/(?:v=|\/|^)([0-9A-Za-z_-]{11})/);
+  if (match) return match[1];
+  if (input.length === 11) return input;
+  return '';
+}
