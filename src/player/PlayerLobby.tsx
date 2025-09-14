@@ -105,8 +105,8 @@ const PlayerLobby: React.FC = () => {
                             className={theme.select}
                         >
                             <option value="">Choisis ton équipe</option>
-                            <option value="Team A">Team A</option>
-                            <option value="Team B">Team B</option>
+                            <option value="Team A">{teamNames["Team A"] ?? "Team A"}</option>
+                            <option value="Team B">{teamNames["Team B"] ?? "Team B"}</option>
                         </select>
                         <button
                             onClick={handleJoinGame}
