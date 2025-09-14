@@ -1,0 +1,49 @@
+{
+  "name": "blindtest-app",
+  "version": "1.0.0",
+  "description": "A blind test game application for playing with friends.",
+  "main": "src/App.tsx",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "@types/react-router-dom": "^5.3.3",
+    "axios": "^1.12.1",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.9.1",
+    "react-scripts": "^5.0.1",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.9.36",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.26",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "typescript": "^4.1.2"
+  },
+  "keywords": [
+    "blindtest",
+    "game",
+    "multiplayer"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

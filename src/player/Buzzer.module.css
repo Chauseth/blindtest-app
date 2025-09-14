@@ -1,0 +1,33 @@
+.buzzerButton {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 40%, #ff5252 60%, #b71c1c 100%);
+  color: #fff;
+  border: none;
+  box-shadow: 0 6px 24px #b71c1c88;
+  font-size: 26px;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+  transition: box-shadow 0.15s, transform 0.1s;
+  margin: 18px auto 0 auto;
+  display: block;
+  position: relative;
+  letter-spacing: 1px;
+}
+
+.buzzerButton:disabled {
+  background: radial-gradient(circle at 40% 40%, #aaa 60%, #888 100%);
+  cursor: not-allowed;
+}
+
+.buzzerPressed {
+  box-shadow: 0 2px 8px #b71c1c;
+  transform: scale(0.96);
+}
+
+.buzzerHasControl {
+  box-shadow: 0 0 0 4px #4caf50aa, 0 6px 24px #388e3c88;
+  background: radial-gradient(circle at 40% 40%, #4caf50 60%, #1b5e20 100%);
+}

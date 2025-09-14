@@ -1,0 +1,166 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: none;
+}
+
+.root {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #4F8EF7 0%, #f74f4f 100%);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+.centeredContainer {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px #0002;
+  padding: 40px 32px;
+  max-width: 480px;
+  width: 100%;
+  margin: 32px auto 0 auto;
+  text-align: center;
+}
+
+.title {
+  font-size: 36px;
+  margin-bottom: 12px;
+  color: #4F8EF7;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  color: #444;
+  margin-bottom: 32px;
+  font-size: 18px;
+}
+
+.buttonPrimary {
+  background: #4F8EF7;
+  color: #fff;
+  font-weight: 600;
+  font-size: 20px;
+  border-radius: 8px;
+  padding: 14px 0;
+  border: none;
+  box-shadow: 0 2px 8px #4F8EF733;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-bottom: 8px;
+}
+
+.buttonSecondary {
+  background: #f74f4f;
+  color: #fff;
+  font-weight: 600;
+  font-size: 20px;
+  border-radius: 8px;
+  padding: 14px 0;
+  border: none;
+  box-shadow: 0 2px 8px #f74f4f33;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-bottom: 8px;
+}
+
+.input, .select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.error {
+  color: red;
+  text-align: center;
+}
+
+.sectionTitle {
+  color: #222;
+  font-size: 22px;
+  margin: 24px 0 12px 0;
+  text-align: center;
+}
+
+.card {
+  border-radius: 12px;
+  min-width: 160px;
+  padding: 12px;
+  margin-bottom: 8px;
+  box-shadow: 0 2px 8px #0001;
+  background: #f4f7fb;
+  border: 2px solid #eee;
+  text-align: left;
+}
+
+.teamA {
+  border-color: #4F8EF7;
+  background: #4F8EF722;
+}
+
+.teamB {
+  border-color: #f74f4f;
+  background: #f74f4f22;
+}
+
+.teamHeader {
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.teamAHeader {
+  color: #4F8EF7;
+}
+
+.teamBHeader {
+  color: #f74f4f;
+}
+
+.teamScore {
+  background: #4F8EF7;
+  color: #fff;
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 15px;
+  margin-left: 6px;
+}
+
+.teamBScore {
+  background: #f74f4f;
+}
+
+.playerList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.playerItem {
+  border-radius: 6px;
+  padding: 2px 6px;
+  margin-bottom: 2px;
+  color: #444;
+}
+
+.playerItemMe {
+  background: #fffbe6;
+  font-weight: 600;
+  color: #222;
+}
+
+.kicked {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  margin: 24px 0;
+}
