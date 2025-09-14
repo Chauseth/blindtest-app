@@ -1,63 +1,99 @@
 # Blindtest App
 
-## Description
-Blindtest App is a fun and interactive game designed for friends to enjoy music quizzes in a competitive format. The application allows users to participate as either a host or a player, facilitating an engaging experience for all participants.
+Blindtest App est une application web de blind test musical, permettant de jouer entre amis avec un animateur et des joueurs répartis en équipes.
 
-## Features
+## Fonctionnalités
 
-### Host Features
-- Create a new game session.
-- View and manage player scores.
-- Add or remove points from players.
-- Reset buzzers for all players.
+### Animateur (Host)
+- Créer une nouvelle partie avec un code unique.
+- Rejoindre une partie existante en tant qu’animateur.
+- Visualiser les équipes et les scores en temps réel.
+- Modifier les noms d’équipes.
+- Ajouter ou retirer des points à chaque joueur.
+- Retirer un joueur de la partie.
+- Réinitialiser les buzzers pour une nouvelle manche.
 
-### Player Features
-- Join an existing game session.
-- Select a team to compete with.
-- Use a buzzer to answer questions.
+### Joueur
+- Rejoindre une partie via un code.
+- Choisir un nom et une équipe.
+- Voir la composition des équipes et les scores.
+- Utiliser un buzzer (bouton ou barre espace) pour répondre.
+- Le premier à buzzer obtient la main (buzzer vert).
+- Les autres joueurs sont verrouillés dès qu’un joueur a buzzé.
 
-## Project Structure
+## Structure du projet
+
 ```
 blindtest-app
-├── src
-│   ├── host
+├── public/
+│   ├── buzz.mp3
+│   └── index.html
+├── src/
+│   ├── App.tsx
+│   ├── index.tsx
+│   ├── common/
+│   │   ├── api.ts
+│   │   ├── AppTheme.module.css
+│   │   └── types.ts
+│   ├── host/
 │   │   ├── HostDashboard.tsx
 │   │   └── ScoreManager.ts
-│   ├── player
-│   │   ├── PlayerLobby.tsx
-│   │   └── Buzzer.tsx
-│   ├── common
-│   │   ├── api.ts
-│   │   └── types.ts
-│   └── App.tsx
+│   └── player/
+│       ├── Buzzer.module.css
+│       ├── Buzzer.tsx
+│       ├── PlayerLobby.module.css
+│       └── PlayerLobby.tsx
+├── server.js
 ├── package.json
 ├── tsconfig.json
 └── README.md
 ```
 
 ## Installation
-1. Clone the repository:
-   ```
+
+1. Clone le dépôt :
+   ```sh
    git clone https://github.com/yourusername/blindtest-app.git
-   ```
-2. Navigate to the project directory:
-   ```
    cd blindtest-app
    ```
-3. Install the dependencies:
-   ```
+
+2. Installe les dépendances :
+   ```sh
    npm install
    ```
 
-## Usage
-- Start the application:
-  ```
-  npm start
-  ```
-- Access the host dashboard to create a game or join as a player to participate in an ongoing game.
+## Lancement
 
-## Contributing
-Contributions are welcome! Please feel free to submit a pull request or open an issue for any suggestions or improvements.
+### Backend (API Express)
+Lance le serveur backend (port 4000 par défaut) :
+```sh
+node server.js
+```
+
+### Frontend (React)
+Dans un autre terminal, démarre l’application React :
+```sh
+npm start
+```
+L’application sera accessible sur [http://localhost:3000](http://localhost:3000).
+
+## Utilisation
+
+- L’animateur crée une partie et partage le code aux joueurs.
+- Les joueurs rejoignent la partie, choisissent leur équipe et leur nom.
+- L’animateur gère les scores et réinitialise les buzzers à chaque manche.
+- Les joueurs buzzent pour répondre dès qu’ils reconnaissent la musique.
+
+## Remarques techniques
+
+- Le buzzer joue un son (`buzz.mp3`) et se désactive pour tous dès qu’un joueur a buzzé.
+- Le backend Express gère la logique de partie, joueurs, scores et buzzers.
+- Le frontend React utilise un polling rapide pour une expérience quasi-instantanée.
+- Pour jouer la musique, l’animateur doit utiliser un lecteur externe (YouTube, Spotify, etc.) : l’application ne contrôle pas la lecture externe.
+
+## Contribution
+
+Les contributions sont les bienvenues ! Ouvre une issue ou une pull request pour toute suggestion ou amélioration.
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
