@@ -22,10 +22,11 @@ const Buzzer = ({ playerId, onBuzzerPress, buzzed, hasControl }: BuzzerProps) =>
 
     const handleBuzzerClick = async () => {
         setPressed(true);
-        if (buzzSound.current) {
-            buzzSound.current.currentTime = 0;
-            buzzSound.current.play();
-        }
+        // Retire la lecture du son côté joueur
+        // if (buzzSound.current) {
+        //     buzzSound.current.currentTime = 0;
+        //     buzzSound.current.play();
+        // }
         await axios.post(`${API_URL}/players/${playerId}/buzz`);
         onBuzzerPress();
         setTimeout(() => setPressed(false), 200);
