@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from "axios";
 import styles from './Buzzer.module.css';
 
-const API_URL = 'http://localhost:4000/api';
+const API_URL = 'https://blindtest-app.onrender.com/api';
 
 type BuzzerProps = {
     playerId: string;
