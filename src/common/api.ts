@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:4000/api'; // Replace with your actual API URL
+const API_URL = 'https://blindtest-app.onrender.com/api'; // Replace with your actual API URL
 
 export const createGame = async (gameData: any): Promise<{ id: string }> => {
     const response = await axios.post(`${API_URL}/games`, gameData);
