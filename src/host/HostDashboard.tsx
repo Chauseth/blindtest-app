@@ -4,7 +4,7 @@ import { Player } from "../common/types";
 import { getTeamNames, updateTeamNames } from "../common/api";
 import theme from '../common/AppTheme.module.css';
 import YouTube from 'react-youtube'; // Ajoute cette ligne
-const API_URL = 'http://localhost:4000/api';
+const API_URL = 'https://blindtest-app.onrender.com/api';
 
 const HostDashboard = () => {
   const [gameId, setGameId] = useState<string | null>(() => {
