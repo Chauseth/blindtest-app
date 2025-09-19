@@ -91,15 +91,18 @@ const HostDashboard = () => {
   }, [gameId, hasBuzzed]);
 
   // Ajoute cet effet pour la pause automatique
+  // Joue le son du buzz uniquement quand hasBuzzed passe de false à true
+  const prevHasBuzzedRef = useRef(false);
   useEffect(() => {
-    if (player && hasBuzzed) {
-      player.pauseVideo();
+    if (hasBuzzed && !prevHasBuzzedRef.current) {
+      if (player) player.pauseVideo();
       if (buzzSound.current) {
         buzzSound.current.currentTime = 0;
         buzzSound.current.play();
       }
     }
-  }, [player, hasBuzzed]);
+    prevHasBuzzedRef.current = hasBuzzed;
+  }, [hasBuzzed, player]);
 
   const updateScore = async (playerId: string, newScore: number) => {
     await axios.patch(`${API_URL}/players/${playerId}/score`, { score: newScore });
