@@ -404,6 +404,25 @@ const HostDashboard = () => {
             >
               Charger la playlist
             </button>
+            <button
+              onClick={() => {
+                // Mélange la playlist avant de charger
+                const arr = playlistInput
+                  .split('\n')
+                  .map(s => s.trim())
+                  .filter(Boolean);
+                for (let i = arr.length - 1; i > 0; i--) {
+                  const j = Math.floor(Math.random() * (i + 1));
+                  [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                setPlaylist(arr);
+                setCurrentIndex(0);
+              }}
+              className={theme.buttonSecondary}
+              style={{ fontSize: 14, padding: '6px 12px', marginLeft: 8 }}
+            >
+              Mélanger la playlist
+            </button>
             <div style={{ marginTop: 12 }}>
               {playlist.length > 0 && (
                 <>
