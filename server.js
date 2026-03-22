@@ -1,9 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
+const path = require('path'); // <-- ajout
 
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000; // <-- modif
+
 
 app.use(cors());
 app.use(express.json());
@@ -178,6 +180,14 @@ app.delete('/api/games/:gameId/players/:playerId', (req, res) => {
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url} - body:`, req.body);
   next();
+});
+
+// Servir le front React buildé
+app.use(express.static(path.join(__dirname, 'build')));
+
+// Fallback pour React Router (SPA)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.listen(PORT, () => {
