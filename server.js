@@ -183,11 +183,10 @@ app.use((req, res, next) => {
 });
 
 // Servir le front React buildé
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, 'build'), { fallthrough: true }));
 
-// Fallback pour React Router (SPA)
-// Express 5 / path-to-regexp ne supporte pas les patterns '*' tout court, on utilise regex.
-app.get(/.*/, (req, res) => {
+// Fallback pour React Router (SPA), sans toucher aux API
+app.get(/^(?!\/api).*/, (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
